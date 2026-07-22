@@ -31,12 +31,13 @@ const verificarToken = async(req, res, next) =>{
 const permitirRoles = (rolesPermetidos) =>{
 
     return (req, res, next) =>{
-      if(!req.usuario || rolesPermetidos.includes(req.usuario.rol)) {
+      if(!req.usuario || !rolesPermetidos.includes(req.usuario.rol)) {
 
         return res.status(403).json({message: 'No tienes permisos para realizar esta acccion'});
 
 
-    }  
+    }
+        next();
     }
 
 }
