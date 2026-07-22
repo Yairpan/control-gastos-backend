@@ -25,7 +25,7 @@ const crearUsuario = async ({nombre, contraseña, email, edad}) =>{
 }
 
 
-// practicando
+
 
 const connection = require('../db');
 const bcrypt = require('bcrypt');
@@ -55,11 +55,11 @@ const crearUsuario = async ({nombre, contraseña, email, edad}) => {
 }
 
 
-// terminado
 
 
 
-// practicando 2
+
+
 
 
 const iniciarUsuario = async ({nombre, contraseña}) =>{
