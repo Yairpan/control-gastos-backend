@@ -5,7 +5,7 @@ const dataBase = mysql.createPool ({
 
   host: '127.8.9.0',
   usaer: 'Yair',
-  password: '1144',
+  password: '',
   database: 'prueba',
 
 });
