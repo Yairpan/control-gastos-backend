@@ -10,7 +10,7 @@ const crearUsuario = async ({nombre, contraseña, email, edad}) =>{
     }
 
     const hash = await bcrypt.hash(contraseña,10)
-
+try{
     const sql = "INSERT INTO usuario (nombre, contraseña, email, edad) VALUES (?,?,?,?)"
     const [result] = await connection.query(sql,[nombre, hash, email, edad]);
 
@@ -22,6 +22,17 @@ const crearUsuario = async ({nombre, contraseña, email, edad}) =>{
 
 
     return result.insertId
+
+    } catch(errorDB) {
+
+    if(errorDB === 'ER_DU_ENTRY'){
+        const error = new Error('Correo ya regisstrado')
+        error.status = 400;
+        throw error;
+    }
+    errorDB.status = 500;
+    throw errorDB;
+    }
 }
 
 
