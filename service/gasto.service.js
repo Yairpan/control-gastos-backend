@@ -16,7 +16,7 @@ const crearGastos = async({monto, descripcion, fecha, idUsuario}) =>{
      const fechaFinal = fecha ? new Date(fecha) : new Date();
 
      const hash = await hash.bcrypt(contraseña,10);
-try{
+    
      const sql = "INSERT INTO gasto (monto, descripcion, fecha, idUsuario) VALUES (?,?,?,?)";
      const [result] = await connection.query(sql, [monto, descripcion, fecha, idUsuario]);
 
@@ -28,18 +28,6 @@ try{
      }
      return result.insertId;
 
-} catch(errorDB) {
-    if(errorDB === 'ER_DUP_ENTRY');
-        const error = new Error('El correo ya ha sido registrado');
-        error.status = 400;
-        throw error;
-
-}
-
-
-    errorDB.status = 500;
-
-    throw errorDB;
 };
 
 
