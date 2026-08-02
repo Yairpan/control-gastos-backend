@@ -2,32 +2,45 @@ const connection = require("../db");
 
 
 
-const crearGastos = async({monto, descripcion, fecha, idUsuario}) =>{
-    monto = parseFloat(monto);
-    categoria_id = parseInt(categoria_id);
+const bcrypt = require('bcrypt'); 
 
-    if(!monto || isNaN(monto) ||! descripcion || descripcion.trim() === ""){
+const crearGastos = async ({ monto, descripcion, fecha, idUsuario }) => {
+
+    const montoNumerico = parseFloat(monto);
+
+    if (!montoNumerico || isNaN(montoNumerico) || !descripcion || descripcion.trim() === "") {
         const error = new Error('VALIDATION_ERROR');
         error.status = 400;
         throw error;
-
-     } 
-
-     const fechaFinal = fecha ? new Date(fecha) : new Date();
-
-     const hash = await hash.bcrypt(contraseña,10);
+    } 
     
-     const sql = "INSERT INTO gasto (monto, descripcion, fecha, idUsuario) VALUES (?,?,?,?)";
-     const [result] = await connection.query(sql, [monto, descripcion, fecha, idUsuario]);
+    const fechaFinal = fecha ? new Date(fecha) : new Date();
 
-     if(!result.insertId) {
-        const error = new Error('error al crear gasto');
-        error.status = 500;
-        throw error;
+    try {
+       
+        const sql = "INSERT INTO gasto (monto, descripcion, fecha, idUsuario) VALUES (?,?,?,?)";
+        
+        
+        const [result] = await connection.query(sql, [montoNumerico, descripcion, fechaFinal, idUsuario]);
 
-     }
-     return result.insertId;
+        if (!result.insertId) {
+            const error = new Error('Error al crear el gasto en el servidor');
+            error.status = 500;
+            throw error;
+        }
+        
+        return result.insertId;
 
+    } catch (errorDB) {
+        if (errorDB.code === 'ER_DUP_ENTRY') {
+            const error = new Error('Este registro ya existe en el sistema');
+            error.status = 400;
+            throw error;
+        }
+
+        errorDB.status = 500;
+        throw errorDB;
+    }
 };
 
 
@@ -64,10 +77,10 @@ const actualizarGastos = async ({monto, descripcion, fecha}, idUsuario, idGasto)
 
 
     return result;
-}
+};
 
 const eliminarGastos = async (idGasto, IdUsuario) =>{
-    const sql = "DELETE FROM gastos WHERE idGasto = ? AND IdUsuario"
+    const sql = "DELETE * FROM gastos WHERE idGasto = ? AND IdUsuario"
 
     const [result] = await connection.query(sql, [idGasto, IdUsuario]);
 
@@ -78,7 +91,7 @@ const eliminarGastos = async (idGasto, IdUsuario) =>{
     }
 
     return result;
-}
+};
 
 
 
