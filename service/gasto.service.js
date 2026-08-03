@@ -16,12 +16,12 @@ const crearGastos = async ({ monto, descripcion, fecha, idUsuario }) => {
     
     const fechaFinal = fecha ? new Date(fecha) : new Date();
 
-    try {
+
        
-        const sql = "INSERT INTO gasto (monto, descripcion, fecha, idUsuario) VALUES (?,?,?,?)";
+    const sql = "INSERT INTO gasto (monto, descripcion, fecha, idUsuario) VALUES (?,?,?,?)";
         
         
-        const [result] = await dataBase.query(sql, [montoNumerico, descripcion, fechaFinal, idUsuario]);
+    const [result] = await dataBase.query(sql, [montoNumerico, descripcion, fechaFinal, idUsuario]);
 
         if (!result.insertId) {
             const error = new Error('Error al crear el gasto en el servidor');
@@ -31,16 +31,6 @@ const crearGastos = async ({ monto, descripcion, fecha, idUsuario }) => {
         
         return result.insertId;
 
-    } catch (errorDB) {
-        if (errorDB.code === 'ER_DUP_ENTRY') {
-            const error = new Error('Este registro ya existe en el sistema');
-            error.status = 400;
-            throw error;
-        }
-
-        errorDB.status = 500;
-        throw errorDB;
-    }
 };
 
 
