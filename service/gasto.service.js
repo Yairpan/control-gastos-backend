@@ -46,7 +46,7 @@ const crearGastos = async ({ monto, descripcion, fecha, idUsuario }) => {
 
 const obtenerGastos = async (idUsuario) =>{
     const sql = "SELECT * FROM gasto WHERE idUsuario = ? ORDER BY fecha DESC"
-    const [rows] = await connection.query(sql);
+    const [rows] = await dataBase.query(sql);
 
     return rows;
 };
@@ -66,7 +66,7 @@ const actualizarGastos = async ({monto, descripcion, fecha}, idUsuario, idGasto)
 
 
     const sql = "UPDATE gasto SET monto = ?, descripcion = ?, fecha = ? WHERE idGasto = ? AND IdUsusario = ?"
-    const [result] = await connection.query(sql[monto, descripcion, fecha, idUsuario, idGasto]);
+    const [result] = await dataBase.query(sql[monto, descripcion, fecha, idUsuario, idGasto]);
 
     if(result.affectedRows === 0){
         const error = new Error("Gasto no encontrado");
@@ -82,7 +82,7 @@ const actualizarGastos = async ({monto, descripcion, fecha}, idUsuario, idGasto)
 const eliminarGastos = async (idGasto, IdUsuario) =>{
     const sql = "DELETE * FROM gastos WHERE idGasto = ? AND IdUsuario"
 
-    const [result] = await connection.query(sql, [idGasto, IdUsuario]);
+    const [result] = await dataBase.query(sql, [idGasto, IdUsuario]);
 
     if(result.affectedRows === 0){
         const error = new Error("Gasto no encontrado");
