@@ -12,7 +12,7 @@ const crearUsuario = async ({nombre, contraseña, email, edad}) =>{
     const hash = await bcrypt.hash(contraseña,10)
 try{
     const sql = "INSERT INTO usuario (nombre, contraseña, email, edad) VALUES (?,?,?,?)"
-    const [result] = await connection.query(sql,[nombre, hash, email, edad]);
+    const [result] = await dataBase.query(sql,[nombre, hash, email, edad]);
 
     if(!result.insertId) {
         const error = new Error("Error al crear usuario");
@@ -26,7 +26,7 @@ try{
     } catch(errorDB) {
 
     if(errorDB === 'ER_DU_ENTRY'){
-        const error = new Error('Correo ya regisstrado')
+        const error = new Error('Correo ya registrado')
         error.status = 400;
         throw error;
     }
@@ -41,7 +41,7 @@ try{
 
 const iniciarUsuario = async ({nombre, contraseña}) =>{
     const sql = "SELECT * FROM usuario WHERE nombre = ?";
-    const [rows] = await connection.query(sql, [nombre]);
+    const [rows] = await dataBase.query(sql, [nombre]);
 
     if(rows.length === 0){
         const error = new Error("Usuario no encontrado");
