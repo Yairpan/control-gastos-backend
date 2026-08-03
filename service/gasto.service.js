@@ -21,7 +21,7 @@ const crearGastos = async ({ monto, descripcion, fecha, idUsuario }) => {
         const sql = "INSERT INTO gasto (monto, descripcion, fecha, idUsuario) VALUES (?,?,?,?)";
         
         
-        const [result] = await connection.query(sql, [montoNumerico, descripcion, fechaFinal, idUsuario]);
+        const [result] = await dataBase.query(sql, [montoNumerico, descripcion, fechaFinal, idUsuario]);
 
         if (!result.insertId) {
             const error = new Error('Error al crear el gasto en el servidor');
