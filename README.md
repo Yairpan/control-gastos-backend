@@ -9,7 +9,7 @@ API REST modular, escalable y segura diseñada para la gestión de finanzas y co
 - **Seguridad y Propietariado de Datos (Candados de Control):** Los endpoints críticos de consulta, actualización y eliminación validan estrictamente que el recurso pertenezca al usuario autenticado extraído del token (`WHERE idGasto = ? AND usuarioId = ?`), mitigando de forma definitiva vulnerabilidades de acceso cruzado (IDOR).
 - **Rendimiento Avanzado (Anti-Race Conditions):** Optimización del I/O de red eliminando consultas intermedias redundantes (`SELECT` previos de comprobación) y delegando la unicidad de registros a restricciones `UNIQUE` nativas en MySQL. Captura y manejo defensivo de códigos de error de sistema (`ER_DUP_ENTRY` / Error `1062`) para responder con estados limpios (`400 Bad Request`).
 
-## 🛠️ Tecnologías Utilizadas
+##  Tecnologías Utilizadas
 - **Runtime:** Node.js (Asincronía nativa mediante `async/await` y Promesas)
 - **Framework Web:** Express.js
 - **Seguridad:** Helmet.js, Bcrypt & JsonWebToken (JWT)
