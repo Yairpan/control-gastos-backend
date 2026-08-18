@@ -25,7 +25,7 @@ try{
 
     } catch(errorDB) {
 
-    if(errorDB === 'ER_DU_ENTRY'){
+    if(errorDB === 'ER_DUP_ENTRY'){
         const error = new Error('Correo ya registrado')
         error.status = 400;
         throw error;
