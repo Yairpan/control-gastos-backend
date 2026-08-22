@@ -16,7 +16,7 @@ try{
 
     if(!result.insertId) {
         const error = new Error("Error al crear usuario");
-        error.status = 400;
+        error.status = 500;
         throw error;
     }
 
